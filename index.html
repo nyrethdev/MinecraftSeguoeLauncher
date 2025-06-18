@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Minecraft Seguoe Launcher - Minecraft Style</title>
+<!-- Minecraft Inspired Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+<!-- Google Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<style>
+  /* Reset and Base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Press Start 2P', cursive, monospace;
+    background: linear-gradient(135deg, #1a2a06 0%, #4a651f 95%);
+    color: #dde7bc;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 72px 1fr 72px;
+    grid-template-areas:
+      "header header"
+      "sidebar main"
+      "footer footer";
+    gap: 20px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  a:hover,
+  a:focus {
+    color: #8bcc19;
+    outline: none;
+  }
+  button, a[role="button"] {
+    cursor: pointer;
+  }
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 14px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #3d5914;
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #7caf4f;
+    border-radius: 8px;
+  }
+  /* Header */
+  header {
+    grid-area: header;
+    background: #4e7921;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 2vw, 2.4rem);
+    color: #e6ff7f;
+    text-shadow: 2px 2px 0 #284008, 0 0 7px #b1d445cc;
+    user-select: none;
+    border-bottom: 4px solid #284008;
+    box-shadow: 0 0 30px #b2d43d88;
+  }
+  /* Sidebar */
+  aside.sidebar {
+    grid-area: sidebar;
+    background: linear-gradient(135deg, #428619 0%, #264b00 100%);
+    border-left: 4px solid #3b6314;
+    box-shadow: inset 0 0 30px #132e00cc;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 27px;
+    user-select: none;
+  }
+  aside.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    padding: 0 20px;
+  }
+  aside.sidebar nav button {
+    background: #2f4300;
+    border: 3px solid #284008;
+    border-radius: 18px;
+    padding: 18px 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #e6ff7fdd;
+    text-shadow: 0 1px 0 #1a2d00;
+    box-shadow: inset 0 0 8px #7fb80eff, 3px 3px 0 #284008;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 0;
+  }
+  aside.sidebar nav button .material-icons {
+    font-size: 26px;
+    color: #a6c4ffcc;
+  }
+  aside.sidebar nav button:hover,
+  aside.sidebar nav button.active,
+  aside.sidebar nav button:focus-visible {
+    background: #3a56f5;
+    color: #d7e9ff;
+    border-color: #3a56f5;
+    box-shadow: 0 0 12px #7e9aff, inset 0 0 15px #a2bdff;
+    outline: none;
+    z-index: 1;
+  }
+  aside.sidebar nav button.active .material-icons,
+  aside.sidebar nav button:hover .material-icons,
+  aside.sidebar nav button:focus-visible .material-icons {
+    color: #d5e4ff;
+    filter: drop-shadow(0 0 6px #7c9aff);
+  }
+  aside.sidebar nav button:focus-visible {
+    outline: 3px dashed #7a95ff;
+    outline-offset: 6px;
+  }
+  /* Main */
+  main {
+    grid-area: main;
+    background: linear-gradient(180deg, #4a651f 0%, #1a2a06 100%);
+    border-radius: 20px;
+    box-shadow: inset 0 0 30px #9ad55b, 0 8px 20px #2f4207cc;
+    padding: 48px 64px;
+    overflow-y: auto;
+    font-weight: 600;
+    color: #d8f29b;
+    filter: drop-shadow(0 0 4px #b0e05270);
+    user-select: text;
+  }
+  section[role="tabpanel"] {
+    display: none;
+  }
+  section[role="tabpanel"].active {
+    display: block;
+  }
+  main h1,
+  main h2 {
+    font-weight: 700;
+    color: #d9f38e;
+    text-shadow: 0 1.5px 0 #395604;
+    margin-top: 0;
+  }
+  main h1 {
+    font-size: clamp(2.8rem, 5vw, 3.8rem);
+  }
+  main h2 {
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    margin-bottom: 20px;
+  }
+  main p,
+  main li {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  main ul {
+    margin-left: 1.5rem;
+    margin-bottom: 40px;
+  }
+  main a {
+    font-weight: 700;
+    color: #95c936;
+    text-decoration: underline;
+  }
+  main a:hover,
+  main a:focus {
+    color: #c3f54a;
+    text-decoration: none;
+  }
+  /* Download Button */
+  .download-btn {
+    background: linear-gradient(90deg, #82c91e, #48a300);
+    border: 4px solid #375900;
+    border-radius: 16px;
+    padding: 1.4rem 4.2rem;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: #e5f0a4;
+    box-shadow: 0 6px 12px #1e3600, inset 0 2px 6px #a7db65;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    user-select: none;
+    transition: all 0.25s ease;
+    text-decoration: none !important;
+  }
+  .download-btn .material-icons.download-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 0 4px #a7db65);
+  }
+  .download-btn:hover,
+  .download-btn:focus-visible {
+    background: linear-gradient(90deg, #acd93d, #6aaf00);
+    box-shadow: 0 10px 20px #1e3600, inset 0 4px 10px #d9f771;
+    color: #cfeaa4;
+    transform: translateY(-4px);
+    outline: none;
+  }
+  /* Footer */
+  footer {
+    grid-area: footer;
+    background: #314b0f;
+    box-shadow: inset 0 1px 5px #1b3001aa;
+    border-top: 3px solid #618b2f;
+    padding: 16px 64px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #a7e053cc;
+    user-select: none;
+    filter: drop-shadow(0 0 6px #88bc32);
+  }
+  /* Responsive */
+  @media (max-width: 768px) {
+    body {
+      grid-template-columns: 1fr;
+      grid-template-rows: 72px auto 72px;
+      grid-template-areas:
+        "header"
+        "main"
+        "footer";
+      padding: 0 16px;
+    }
+    aside.sidebar {
+      display: none;
+    }
+    main {
+      padding: 32px 16px;
+    }
+    footer {
+      padding: 12px 16px;
+      font-size: 0.9rem;
+    }
+  }
+</style>
+</head>
+
+<body aria-label="Minecraft Seguoe Launcher Minecraft inspired UI">
+<header role="banner" aria-label="Page header">
+  Minecraft Seguoe Launcher
+</header>
+
+<aside class="sidebar" role="navigation" aria-label="Primary Navigation">
+  <nav>
+    <button id="tab-home" class="active" aria-selected="true" aria-controls="panel-home" role="tab" tabindex="0" aria-label="Home tab">
+      <span class="material-icons" aria-hidden="true">home</span> Home
+    </button>
+    <button id="tab-about" aria-selected="false" aria-controls="panel-about" role="tab" tabindex="-1" aria-label="About tab">
+      <span class="material-icons" aria-hidden="true">info</span> About
+    </button>
+    <button id="tab-help" aria-selected="false" aria-controls="panel-help" role="tab" tabindex="-1" aria-label="Help tab">
+      <span class="material-icons" aria-hidden="true">help_outline</span> Help
+    </button>
+    <button id="tab-settings" aria-selected="false" aria-controls="panel-settings" role="tab" tabindex="-1" aria-label="Settings tab">
+      <span class="material-icons" aria-hidden="true">settings</span> Settings
+    </button>
+  </nav>
+</aside>
+
+<main>
+  <section id="panel-home" role="tabpanel" tabindex="0" aria-labelledby="tab-home" class="active" aria-live="polite" aria-hidden="false">
+    <h1>Download Minecraft Seguoe Launcher</h1>
+    <a href="files/MinecraftSeguoeLauncher.exe" download="MinecraftSeguoeLauncher.exe" class="download-btn" role="button" aria-label="Download Minecraft Seguoe Launcher" tabindex="0">
+      <span class="material-icons download-icon" aria-hidden="true">download</span>
+      Download Minecraft Seguoe Launcher
+    </a>
+  </section>
+
+  <section id="panel-about" role="tabpanel" tabindex="0" aria-labelledby="tab-about" class="inactive" aria-live="polite" aria-hidden="true" hidden>
+    <h2>About Minecraft Seguoe Launcher</h2>
+    <p>The Minecraft Seguoe Launcher offers a real Minecraft-inspired look and feel, with pixel-art style, strong colors, and cool blocky vibe.</p>
+    <ul>
+      <li>Fast and reliable launch process.</li>
+      <li>Automatic regular updates.</li>
+      <li>Personalize with settings and preferences.</li>
+      <li>Safe and secure gaming environment.</li>
+    </ul>
+    <p>Brought to you with passion by Nyreth.</p>
+  </section>
+
+  <section id="panel-help" role="tabpanel" tabindex="0" aria-labelledby="tab-help" class="inactive" aria-live="polite" aria-hidden="true" hidden>
+    <h2>Help & Support</h2>
+    <p>Need help? Here’s what to do:</p>
+    <ul>
+      <li>Click Download and follow installer steps.</li>
+      <li>Ensure Java is current and firewall allows the program.</li>
+      <li>Contact support at <a href="mailto:blwckwhy@gmail.com">blwckwhy@gmail.com</a>.</li>
+    </ul>
+    <p>Or visit our <a href="FAQ.html" style="color:#a3db4f;">official FAQ</a>.</p>
+  </section>
+
+  <section id="panel-settings" role="tabpanel" tabindex="0" aria-labelledby="tab-settings" class="inactive" aria-live="polite" aria-hidden="true" hidden>
+    <h2>Settings</h2>
+    <form id="settings-form" novalidate>
+      <label for="theme-select">Theme</label>
+      <select id="theme-select" name="theme" aria-describedby="theme-desc" aria-required="true">
+        <option value="light">Light</option>
+        <option value="dark" selected>Dark</option>
+        <option value="system">System Default</option>
+      </select>
+      <small id="theme-desc" style="display:block; margin-bottom:1.5em; color:#a3db4f; font-weight:600;">Choose your preferred theme.</small>
+
+      <label for="auto-update" style="display:flex; align-items:center; cursor:pointer; font-weight:600;">
+        <input type="checkbox" id="auto-update" name="autoUpdate" checked aria-checked="true" style="margin-right:0.65em;" />
+        Enable automatic updates
+      </label>
+
+      <button type="submit" aria-live="polite" aria-busy="false" aria-label="Save Settings" style="margin-top:2rem;">
+        Save Settings
+      </button>
+
+      <div id="settings-message" role="alert" aria-live="polite" style="font-weight:700; margin-top:1.4em; min-height:1.6em;"></div>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="madeby-text" aria-hidden="true" style="font-weight:700; font-size:1rem; text-align:center; width:100%; color:#a3db4f;">
+    2025 Made By Nyreth
+  </div>
+</footer>
+
+<script>
+  // Tab navigation
+  const tabButtons = document.querySelectorAll('aside.sidebar nav button');
+  const panels = document.querySelectorAll('main section[role="tabpanel"]');
+
+  function activateTab(tab) {
+    tabButtons.forEach(button => {
+      const selected = button === tab;
+      button.classList.toggle('active', selected);
+      button.setAttribute('aria-selected', selected);
+      button.setAttribute('tabindex', selected ? '0' : '-1');
+    });
+    panels.forEach(panel => {
+      const show = panel.id === tab.getAttribute('aria-controls');
+      panel.classList.toggle('active', show);
+      panel.classList.toggle('inactive', !show);
+      if (show) {
+        panel.removeAttribute('hidden');
+        panel.setAttribute('aria-hidden', 'false');
+        panel.focus();
+      } else {
+        panel.setAttribute('hidden', '');
+        panel.setAttribute('aria-hidden', 'true');
+      }
+    });
+  }
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => activateTab(button));
+    button.addEventListener('keydown', e => {
+      if (['ArrowDown', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+        let nextIndex = [...tabButtons].indexOf(e.target) + 1;
+        if (nextIndex >= tabButtons.length) nextIndex = 0;
+        tabButtons[nextIndex].focus();
+      } else if (['ArrowUp', 'ArrowLeft'].includes(e.key)) {
+        e.preventDefault();
+        let prevIndex = [...tabButtons].indexOf(e.target) - 1;
+        if (prevIndex < 0) prevIndex = tabButtons.length - 1;
+        tabButtons[prevIndex].focus();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        tabButtons[0].focus();
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        tabButtons[tabButtons.length - 1].focus();
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        activateTab(e.target);
+      }
+    });
+  });
+
+  // Settings form for theme persistence
+  const settingsForm = document.getElementById('settings-form');
+  const message = document.getElementById('settings-message');
+
+  function applyTheme(theme) {
+    if(theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.body.style.background = 'linear-gradient(135deg, #f0f4ff 0%, #d0ddff 100%)';
+      document.body.style.color = '#222';
+    } else if(theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.body.style.background = 'linear-gradient(135deg, #0f2027 0%, #203a43 100%)';
+      document.body.style.color = '#e0e6ff';
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      applyTheme(prefersDark ? 'dark' : 'light');
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('userTheme') || 'dark';
+    const savedAutoUpdate = localStorage.getItem('autoUpdate');
+    applyTheme(savedTheme);
+    settingsForm.theme.value = savedTheme;
+    settingsForm.autoUpdate.checked = savedAutoUpdate !== 'false';
+  });
+
+  settingsForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const theme = settingsForm.theme.value;
+    const autoUpdate = settingsForm.autoUpdate.checked;
+    try {
+      localStorage.setItem('userTheme', theme);
+      localStorage.setItem('autoUpdate', autoUpdate);
+      applyTheme(theme);
+      message.textContent = 'Settings saved successfully.';
+      message.style.color = '#4caf50';
+    } catch {
+      message.textContent = 'Error saving settings.';
+      message.style.color = '#f44336';
+    }
+    setTimeout(() => { message.textContent = ''; }, 3500);
+  });
+</script>
+</body>
+</html>
